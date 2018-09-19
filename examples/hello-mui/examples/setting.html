@@ -155,8 +155,25 @@
 			.mui-ios .mui-navbar .mui-bar .mui-title {
 				position: static;
 			}
+			/*问题反馈在setting页面单独的css*/
+			#feedback .mui-popover{
+				position: fixed;
+			}
+			#feedback .mui-table-view:last-child {
+			    margin-bottom: 0px;
+			}
+			#feedback .mui-table-view:first-child {
+			    margin-top: 0px;
+			}
+			
+			.mui-plus.mui-plus-stream .mui-stream-hidden{
+				display: none !important;
+			}
+			
+			/*问题反馈在setting页面单独的css==end*/
+			
 		</style>
-		<link rel="stylesheet" type="text/css" href="../css/feedback-page.css" />
+		<link rel="stylesheet" type="text/css" href="../css/feedback.css" />
 	</head>
 
 	<body class="mui-fullscreen">
@@ -213,7 +230,7 @@
 						</ul>
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell">
-								<a href="#about" class="mui-navigate-right">关于MUI <i class="mui-pull-right update">V2.8.0</i></a>
+								<a href="#about" class="mui-navigate-right">关于MUI <i class="mui-pull-right update">V3.1.0</i></a>
 							</li>
 						</ul>
 						<ul class="mui-table-view">
@@ -461,7 +478,7 @@
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll">
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-plus-visible">
+							<li class="mui-table-view-cell mui-plus-visible mui-stream-hidden">
 								<a id="rate" class="mui-navigate-right">评分鼓励</a>
 							</li>
 							<li class="mui-table-view-cell mui-plus-visible">
@@ -476,7 +493,7 @@
 							<li class="mui-table-view-cell">
 								<a id="feedback-btn" href="#feedback" class="mui-navigate-right">问题反馈</a>
 							</li>
-							<li class="mui-table-view-cell mui-plus-visible">
+							<li id="check_update" class="mui-table-view-cell mui-plus-visible">
 								<a id="update" class="mui-navigate-right">检查更新</a>
 							</li>
 						</ul>
@@ -490,34 +507,61 @@
 				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
 					<span class="mui-icon mui-icon-left-nav"></span>关于MUI
 				</button>
+				<button id="submit" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">发送</button>
 				<h1 class="mui-center mui-title">问题反馈</h1>
 			</div>
 			<div class="mui-page-content">
-				<p>问题和意见</p>
+				<div class="mui-content-padded">
+					<div class="mui-inline">问题和意见</div>
+					<a class="mui-pull-right mui-inline" href="#popover">
+						快捷输入
+						<span class="mui-icon mui-icon-arrowdown"></span>
+					</a>
+					<!--快捷输入具体内容，开发者可自己替换常用语-->
+					<div id="popover" class="mui-popover">
+						<div class="mui-popover-arrow"></div>
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<!--仅流应用环境下显示-->
+									<li class="mui-table-view-cell stream">
+										<a href="#">桌面快捷方式创建失败</a>
+									</li>
+									<li class="mui-table-view-cell"><a href="#">界面显示错乱</a></li>
+									<li class="mui-table-view-cell"><a href="#">启动缓慢，卡出翔了</a></li>
+									<li class="mui-table-view-cell"><a href="#">偶发性崩溃</a></li>
+									<li class="mui-table-view-cell"><a href="#">UI无法直视，丑哭了</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="row mui-input-row">
 					<textarea id='question' class="mui-input-clear question" placeholder="请详细描述你的问题和意见..."></textarea>
 				</div>
-				<p>图片(选填,提供问题截图)</p>
-				<div id='image-list' class="row image-list">
-				</div>
+				<p>图片(选填,提供问题截图,总大小10M以下)</p>
+				<div id='image-list' class="row image-list"></div>
 				<p>QQ/邮箱</p>
 				<div class="mui-input-row">
-					<input id='contact' type="text" class="mui-input-clear  contact" placeholder="(选填,方便我们联系你 )" />
+					<input id='contact' type="text" class="mui-input-clear contact" placeholder="(选填,方便我们联系你 )" />
 				</div>
-				<button id='submit' type="button" class="mui-btn mui-btn-green">提交</button>
+				<div class="mui-content-padded">
+					<div class="mui-inline">应用评分</div>
+					<div class="icons mui-inline" style="margin-left: 6px;">
+						<i data-index="1" class="mui-icon mui-icon-star"></i>
+						<i data-index="2" class="mui-icon mui-icon-star"></i>
+						<i data-index="3" class="mui-icon mui-icon-star"></i>
+						<i data-index="4" class="mui-icon mui-icon-star"></i>
+						<i data-index="5" class="mui-icon mui-icon-star"></i>
+					</div>
+				</div><br />
 			</div>
-			<p>此示例基于环信 “WebIM SDK” + 环信 “移动客服” 实现，在环信 “移动客服面板” 能够查阅反馈信息。</p>
 		</div>
 
 	</body>
 	<script src="../js/mui.min.js "></script>
 	<script src="../js/mui.view.js "></script>
-	<script src='../libs/easymob-webim-sdk/jquery-1.11.1.js'></script>
-	<script src='../libs/easymob-webim-sdk/strophe-custom-2.0.0.js'></script>
-	<script src='../libs/easymob-webim-sdk/json2.js'></script>
-	<script src="../libs/easymob-webim-sdk/easemob.im-1.0.5.js"></script>
 	<script src='../js/feedback.js'></script>
-	<script src="../js/feedback-page.js"></script>
 	<script>
 		mui.init();
 		//初始化单页view
@@ -622,7 +666,7 @@
 		//去评分
 		document.getElementById("rate").addEventListener('tap', function() {
 			if (mui.os.ios) {
-				location.href = 'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=682211190&pageNumber=0&sortOrdering=2&type=&mt=8';
+				location.href = 'https://itunes.apple.com/cn/app/hello-mui/id907931805?l=en&mt=8';
 			} else if (mui.os.android) {
 				plus.runtime.openURL("market://details?id=io.dcloud.HelloMUI", function(e) {
 					plus.runtime.openURL("market://details?id=io.dcloud.HelloMUI", function(e) {
@@ -640,11 +684,6 @@
 			}
 			
 		});
-		//		//意见反馈
-		//		document.getElementById("quest").addEventListener('tap', function() {
-		//			
-		//		});
-		//		
 		//检查更新
 		document.getElementById("update").addEventListener('tap', function() {
 			var server = "http://www.dcloud.io/check/update"; //获取升级描述文件服务器地址
@@ -861,6 +900,11 @@
 				var _slider = mui(slider).slider();
 			}
 		}
+		
+		if(mui.os.stream){
+			document.getElementById("check_update").display = "none";
+		}
+		
 	</script>
 
 </html>

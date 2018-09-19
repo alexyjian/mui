@@ -1,4 +1,5 @@
 (function($, window, document, undefined) {
+	var CLASS_SCROLL = $.className('scroll');
 	var CLASS_SCROLLBAR = $.className('scrollbar');
 	var CLASS_INDICATOR = $.className('scrollbar-indicator');
 	var CLASS_SCROLLBAR_VERTICAL = CLASS_SCROLLBAR + '-vertical';
@@ -57,7 +58,6 @@
 
 				scrollTime: 500,
 				scrollEasing: ease.outCubic, //轮播动画曲线
-
 
 				directionLockThreshold: 5,
 
@@ -499,7 +499,7 @@
 			}
 		},
 		_scrollend: function(e) {
-			if (Math.abs(this.y) > 0 && this.y <= this.maxScrollY) {
+			if ((this.y === 0 && this.maxScrollY === 0) || (Math.abs(this.y) > 0 && this.y <= this.maxScrollY)) {
 				$.trigger(this.scroller, 'scrollbottom', this);
 			}
 		},
@@ -649,7 +649,16 @@
 		},
 		//API
 		setStopped: function(stopped) {
-			this.stopped = !!stopped;
+			// this.stopped = !!stopped;
+
+			// fixed ios双webview模式下拉刷新
+			if(stopped) {
+				this.disablePullupToRefresh();
+				this.disablePulldownToRefresh();
+			} else {
+				this.enablePullupToRefresh();
+				this.enablePulldownToRefresh();
+			}
 		},
 		setTranslate: function(x, y) {
 			this.x = x;
@@ -722,7 +731,18 @@
 
 			return true;
 		},
+		_reInit: function() {
+			var groups = this.wrapper.querySelectorAll('.' + CLASS_SCROLL);
+			for (var i = 0, len = groups.length; i < len; i++) {
+				if (groups[i].parentNode === this.wrapper) {
+					this.scroller = groups[i];
+					break;
+				}
+			}
+			this.scrollerStyle = this.scroller && this.scroller.style;
+		},
 		refresh: function() {
+			this._reInit();
 			this.reLayout();
 			$.trigger(this.scroller, 'refresh', this);
 			this.resetPosition();
@@ -770,7 +790,6 @@
 			speedRatioX: 0,
 			speedRatioY: 0
 		}, options);
-
 
 		this.sizeRatioX = 1;
 		this.sizeRatioY = 1;

@@ -36,13 +36,7 @@
 			}
 		},
 		_init: function() {
-			var groups = this.wrapper.querySelectorAll('.' + CLASS_SLIDER_GROUP);
-			for (var i = 0, len = groups.length; i < len; i++) {
-				if (groups[i].parentNode === this.wrapper) {
-					this.scroller = groups[i];
-					break;
-				}
-			}
+			this._reInit();
 			if (this.scroller) {
 				this.scrollerStyle = this.scroller.style;
 				this.progressBar = this.wrapper.querySelector(SELECTOR_SLIDER_PROGRESS_BAR);
@@ -128,7 +122,7 @@
 					if (number) { //图文表格
 						number.innerText = (detail.slideNumber + 1);
 					} else { //segmented controls
-						var controlItems = self.wrapper.querySelectorAll($.classSelector('.control-item'));
+						var controlItems = indicatorWrap.querySelectorAll($.classSelector('.control-item'));
 						for (var i = 0, len = controlItems.length; i < len; i++) {
 							controlItems[i].classList[i === detail.slideNumber ? 'add' : 'remove'](CLASS_ACTIVE);
 						}
@@ -163,7 +157,9 @@
 					this._handleSlide(e);
 					break;
 				case $.eventName('shown', 'tab'):
-					this._handleTabShow(e);
+					if (~this.snaps.indexOf(e.target)) { //避免嵌套监听错误的tab show
+						this._handleTabShow(e);
+					}
 					break;
 			}
 		},
@@ -342,6 +338,20 @@
 		},
 		getSlideNumber: function() {
 			return this.slideNumber || 0;
+		},
+		_reInit: function() {
+			var groups = this.wrapper.querySelectorAll('.' + CLASS_SLIDER_GROUP);
+			for (var i = 0, len = groups.length; i < len; i++) {
+				if (groups[i].parentNode === this.wrapper) {
+					this.scroller = groups[i];
+					break;
+				}
+			}
+			this.scrollerStyle = this.scroller && this.scroller.style;
+			if (this.progressBar) {
+				this.progressBarWidth = this.progressBar.offsetWidth;
+				this.progressBarStyle = this.progressBar.style;
+			}
 		},
 		refresh: function(options) {
 			if (options) {

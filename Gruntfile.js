@@ -74,11 +74,11 @@ module.exports = function(grunt) {
 					'js/mui.layout.js',
 					'js/mui.animation.js',
 					'js/mui.class.js',
-					'js/mui.pullRefresh.js',
+					'js/mui.pullrefresh.js',
 					'js/mui.class.scroll.js',
 					'js/mui.class.scroll.pullrefresh.js',
 					'js/mui.class.scroll.slider.js',
-					'js/pullrefresh.5+.js',
+					'js/mui.pullrefresh.5+.js',
 					'js/mui.offcanvas.js',
 					'js/actions.js',
 					'js/modals.js',
@@ -91,9 +91,11 @@ module.exports = function(grunt) {
 					'js/mui.dialog.prompt.js',
 					'js/mui.dialog.toast.js',
 					'js/mui.popup.js',
+					'js/mui.progressbar.js',
 					'js/input.plugin.js',
-					'js/mui.number.js'
-
+					'js/mui.transparent.js',
+					'js/mui.number.js',
+					'js/mui.button.js'
 				],
 				dest: '<%= meta.distPath %>js/<%= pkg.name %>.js',
 			}
